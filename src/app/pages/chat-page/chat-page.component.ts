@@ -2,7 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
@@ -14,7 +14,11 @@ import { ChatService } from 'src/app/services/chat.service';
 })
 export class ChatPageComponent {
   chatService = inject(ChatService);
-  messages$ = this.chatService.loadMessages() as Observable<DocumentData[]>;
+  
+  messages$ = (
+    this.chatService.loadMessages() as Observable<DocumentData[]>
+  ).pipe(map((messages) => messages.reverse()));
+
   user$ = this.chatService.user$;
   text = '';
 
