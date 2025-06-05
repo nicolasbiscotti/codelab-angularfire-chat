@@ -10,11 +10,11 @@ import { ChatService } from 'src/app/services/chat.service';
   templateUrl: './chat-page.component.html',
   styleUrls: ['./chat-page.component.css'],
   standalone: true,
-  imports: [AsyncPipe, FormsModule]
+  imports: [AsyncPipe, FormsModule],
 })
 export class ChatPageComponent {
   chatService = inject(ChatService);
-  
+
   messages$ = (
     this.chatService.loadMessages() as Observable<DocumentData[]>
   ).pipe(map((messages) => messages.reverse()));
@@ -28,6 +28,8 @@ export class ChatPageComponent {
   }
 
   uploadImage(event: any) {
+    console.log('files url list ==> ', event.target.files);
+
     const imgFile: File = event.target.files[0];
     if (!imgFile) {
       return;
